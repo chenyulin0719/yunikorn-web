@@ -16,6 +16,8 @@
  * limitations under the License.
  */
 
+import { ChartDataItem } from '@app/models/chart-data.model';
+
 export class NodeUtilization {
   constructor(
     public type: string,
@@ -24,5 +26,15 @@ export class NodeUtilization {
       numOfNodes: number;
       nodeNames: null | string[];
     }[],
-  ) {}
+  ) {}  
+}
+
+export class NodeUtilizationChartData {
+  type: string;
+  chartDataItems: ChartDataItem[];
+
+  constructor(type: string, chartDataItems: ChartDataItem[]) {
+    this.type = type;
+    this.chartDataItems = chartDataItems;
+  }
 }

@@ -30,6 +30,7 @@ import { AllocationInfo } from '@app/models/alloc-info.model';
 import { ColumnDef } from '@app/models/column-def.model';
 import { CommonUtil } from '@app/utils/common.util';
 import { PartitionInfo } from '@app/models/partition-info.model';
+import { NodeUtilizationChartData } from '@app/models/node-utilization.model';
 
 @Component({
   selector: 'app-nodes-view',
@@ -54,6 +55,7 @@ export class NodesViewComponent implements OnInit {
   partitionSelected = '';
 
   detailToggle: boolean = false;
+  nodeUtilizationChartDataList: NodeUtilizationChartData[] = [];
 
   constructor(private scheduler: SchedulerService, private spinner: NgxSpinnerService) {}
 
@@ -61,6 +63,9 @@ export class NodesViewComponent implements OnInit {
     this.nodeDataSource.paginator = this.nodePaginator;
     this.allocDataSource.paginator = this.allocPaginator;
     this.nodeDataSource.sort = this.nodeSort;
+
+    //### To remove this, how?
+    this.partitionSelected = "default";
 
     this.nodeColumnDef = [
       { colId: 'nodeId', colName: 'Node ID' },
@@ -113,7 +118,6 @@ export class NodesViewComponent implements OnInit {
           list.forEach((part) => {
             this.partitionList.push(new PartitionInfo(part.name, part.name));
           });
-
           this.partitionSelected = list[0].name;
           this.fetchNodeListForPartition(this.partitionSelected);
         } else {
@@ -122,6 +126,12 @@ export class NodesViewComponent implements OnInit {
           this.nodeDataSource.data = [];
         }
       });
+
+    this.scheduler.fetchPartitionAllNodeUtilization(this.partitionSelected).subscribe((data) => {
+      data.forEach((nodeUtilization) => {
+        this.nodeUtilizationChartDataList.push(this.scheduler.nodeUtilizationToChartData(nodeUtilization));
+      });
+    });
   }
 
   fetchNodeListForPartition(partitionName: string) {

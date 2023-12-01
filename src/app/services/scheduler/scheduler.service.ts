@@ -23,7 +23,8 @@ import {AppInfo} from '@app/models/app-info.model';
 import {ClusterInfo} from '@app/models/cluster-info.model';
 import {HistoryInfo} from '@app/models/history-info.model';
 import {NodeInfo} from '@app/models/node-info.model';
-import {NodeUtilization} from '@app/models/node-utilization.model';
+import {NodeUtilization, NodeUtilizationChartData} from '@app/models/node-utilization.model';
+import {ChartDataItem} from '@app/models/chart-data.model';
 import {Partition} from '@app/models/partition-info.model';
 
 import {QueueInfo, QueuePropertyItem} from '@app/models/queue-info.model';
@@ -254,9 +255,14 @@ export class SchedulerService {
     );
   }
 
-  fetchNodeUtilization(): Observable<NodeUtilization>{
+  fetchClusterNodeUtilization(): Observable<NodeUtilization>{
     const nodeUtilizationUrl = `${this.envConfig.getSchedulerWebAddress()}/ws/v1/scheduler/node-utilization`;
     return this.httpClient.get(nodeUtilizationUrl).pipe(map((data: any) => data as NodeUtilization));
+  }
+
+  fetchPartitionAllNodeUtilization(partitionName: string): Observable<NodeUtilization[]>{
+    const nodeUtilizationUrl = `${this.envConfig.getSchedulerWebAddress()}/ws/v1/partition/${partitionName}/node-utilization`;
+    return this.httpClient.get(nodeUtilizationUrl).pipe(map((data: any) => data as NodeUtilization[]));
   }
 
   fecthHealthchecks(): Observable<SchedulerHealthInfo> {
@@ -399,5 +405,25 @@ export class SchedulerService {
     }
 
     return Math.max(0, Math.min(result, 100));
+  }
+
+  public nodeUtilizationToChartData(nodeUtilization: NodeUtilization): NodeUtilizationChartData{
+    const CHART_COLORS = ['#4285f4', '#db4437', '#f4b400', '#0f9d58', '#ff6d00', '#3949ab', '#facc54', '#26bbf0', '#cc6164', '#60cea5'];
+    let type = nodeUtilization.type;
+    let utilization = nodeUtilization.utilization;
+    // prepare chart data 
+    let chartDataItems = new Array<ChartDataItem>();
+    let index = 0;
+    utilization.forEach(({ bucketName, numOfNodes, nodeNames }) => {
+      const numOfNodesValue = numOfNodes === -1 ? 0 : numOfNodes;
+      const footer = nodeNames?.join("\n")
+      chartDataItems.push(new ChartDataItem(
+        bucketName,
+        numOfNodesValue,
+        CHART_COLORS[(index++)%10],
+        footer
+      ));
+    });
+    return new NodeUtilizationChartData(type, chartDataItems)
   }
 }

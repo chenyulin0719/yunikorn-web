@@ -20,10 +20,12 @@ export class ChartDataItem {
   name: string;
   value: number;
   color: string;
+  footer?: string;
 
-  constructor(name: string, value: number, color: string) {
+  constructor(name: string, value: number, color: string, footer?: string) {
     this.name = name;
     this.value = value;
     this.color = color;
+    this.footer = footer;
   }
 }

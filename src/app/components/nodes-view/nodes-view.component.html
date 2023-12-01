@@ -173,4 +173,10 @@
       ></mat-paginator>
     </div>
   </div>
+
+  <div class="nodes-chart-grid">
+    <ng-container *ngFor="let nodeUtilizationChartData of nodeUtilizationChartDataList">
+      <app-node-utilization [chartData]="nodeUtilizationChartData['chartDataItems']" [title]="'Node\'s '+ nodeUtilizationChartData['type'] + ' Utilization'" />
+    </ng-container>
+  </div>
 </div>

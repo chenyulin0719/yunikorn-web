@@ -5,6 +5,7 @@
   "/history/containers": "/containerHistory",
   "/partition/:partition/queues": "/queues",
   "/partition/:partition/nodes": "/nodes",
+  "/partition/:partition/node-utilization": "/all-type-node-utilization",
   "/partition/:partition/queue/:queue/applications": "/apps",
   "/scheduler/healthcheck": "/healthCheck"
 }
