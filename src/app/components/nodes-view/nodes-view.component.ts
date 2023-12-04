@@ -131,7 +131,24 @@ export class NodesViewComponent implements OnInit {
       data.forEach((nodeUtilization) => {
         this.nodeUtilizationChartDataList.push(this.scheduler.nodeUtilizationToChartData(nodeUtilization));
       });
+      // sort the order of charts
+      this.nodeUtilizationChartDataList.sort(this.sortNodeUtilizationChartFn)
     });
+  }
+
+  sortNodeUtilizationChartFn(a: NodeUtilizationChartData, b: NodeUtilizationChartData){
+    // create a enum to map resource string to number
+    enum SortOrder {
+      memory = 1,
+      vcore = 2,
+      pods = 3,
+      ephemeral_storage = 4,
+      hugepages_2Mi = 5,
+      hugepages_1Gi = 6
+    }
+    const orderA = SortOrder[a.type.replace(/-/g, '_') as keyof typeof SortOrder] || Number.MAX_SAFE_INTEGER;
+    const orderB = SortOrder[b.type.replace(/-/g, '_') as keyof typeof SortOrder] || Number.MAX_SAFE_INTEGER;
+    return orderA - orderB;
   }
 
   fetchNodeListForPartition(partitionName: string) {

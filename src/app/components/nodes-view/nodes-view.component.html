@@ -176,7 +176,7 @@
 
   <div class="nodes-chart-grid">
     <ng-container *ngFor="let nodeUtilizationChartData of nodeUtilizationChartDataList">
-      <app-node-utilization [chartData]="nodeUtilizationChartData['chartDataItems']" [title]="'Node Utilization: ' + nodeUtilizationChartData['type']" />
+      <app-node-utilization [chartData]="nodeUtilizationChartData['chartDataItems']" [title]="'Node Utilization'" [subtitle]="nodeUtilizationChartData['type']"/>
     </ng-container>
   </div>
 </div>

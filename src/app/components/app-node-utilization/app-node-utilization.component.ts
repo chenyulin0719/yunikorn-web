@@ -27,4 +27,5 @@ import { ChartDataItem } from '@app/models/chart-data.model';
 export class AppNodeUtilizationComponent {
   @Input() chartData: ChartDataItem[] = [];
   @Input() title: String = "";
+  @Input() subtitle: String = "";
 }
