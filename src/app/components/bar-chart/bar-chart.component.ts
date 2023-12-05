@@ -34,7 +34,7 @@ export class BarChartComponent implements OnInit, AfterViewInit, OnChanges, OnDe
   destroy$ = new Subject<boolean>();
   chartContainerId = '';
   barChartData: ChartDataItem[] = [];
-  barChart: Chart<'bar', number[], string> | undefined;
+  barChart: Chart<'bar'|'line', number[], string> | undefined;
 
   @Input() data: ChartDataItem[] = [];
   constructor(private eventBus: EventBusService) { }
@@ -83,6 +83,11 @@ export class BarChartComponent implements OnInit, AfterViewInit, OnChanges, OnDe
     const colors = chartData.map((d) => d.color);
     const footers = chartData.map((d) => d.footer);
 
+    let cpuValues: number[] = [1, 2, 3, 4, 2, 9,7,7,9,10];
+    let gpuValues: number[] = [10,9,8,7,6,5,4,3,2,1];
+    let memoryValues: number[] = [5,5,5,5,5,6,6,6,6,6];
+    let diskValues: number[] = [3,3,3,3,7,7,7,7,7,8];
+
     if (this.barChart) {
       this.barChart.destroy();
     }
@@ -92,10 +97,50 @@ export class BarChartComponent implements OnInit, AfterViewInit, OnChanges, OnDe
       data: {
         labels: chartLabels,
         datasets: [
+    // {
+    //   label: 'Dataset 1',
+    //   data: Utils.numbers(NUMBER_CFG),
+    //   borderColor: Utils.CHART_COLORS.red,
+    //   backgroundColor: Utils.transparentize(Utils.CHART_COLORS.red, 0.5),
+    //   stack: 'combined',
+    //   type: 'bar'
+    // },
+    // {
+    //   label: 'Dataset 2',
+    //   data: Utils.numbers(NUMBER_CFG),
+    //   borderColor: Utils.CHART_COLORS.blue,
+    //   backgroundColor: Utils.transparentize(Utils.CHART_COLORS.blue, 0.5),
+    //   stack: 'combined'
+    // }
+    // const CHART_COLORS = ['#4285f4', '#db4437', '#f4b400', '#0f9d58', '#ff6d00', '#3949ab', '#facc54', '#26bbf0', '#cc6164', '#60cea5'];
+    
           {
-            data: dataValues,
-            backgroundColor: colors,
-            borderWidth: 1
+            label: 'CPU',
+            data: cpuValues,
+            backgroundColor: '#4285f4',
+            borderWidth: 1,
+            order: 3
+          },
+          {
+            label: 'memory',
+            data: memoryValues,
+            backgroundColor: '#db4437',
+            borderWidth: 1,
+            order: 3
+          },
+          {
+            label: 'gpu',
+            data: gpuValues,
+            backgroundColor: '#f4b400',
+            borderWidth: 1,
+            order: 3
+          },
+          {
+            label: 'disk',
+            data: diskValues,
+            backgroundColor: '#0f9d58',
+            borderWidth: 1,
+            order: 3
           }
         ],
       },
@@ -103,7 +148,7 @@ export class BarChartComponent implements OnInit, AfterViewInit, OnChanges, OnDe
         responsive: true,
         plugins: {
           legend: {
-            display: false,
+            display: true,
           },
           title: {
             display: false,

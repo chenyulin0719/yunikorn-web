@@ -60,6 +60,7 @@ import { StatusViewComponent } from '@app/components/status-view/status-view.com
 import { HealthchecksComponent } from '@app/components/healthchecks/healthchecks.component';
 import { AppNodeUtilizationComponent } from '@app/components/app-node-utilization/app-node-utilization.component';
 import { BarChartComponent } from '@app/components/bar-chart/bar-chart.component';
+import { StackedBarLineChartComponent } from './components/stacked-bar-line-chart/stacked-bar-line-chart.component';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import { BarChartComponent } from '@app/components/bar-chart/bar-chart.component
     HealthchecksComponent,
     AppNodeUtilizationComponent,
     BarChartComponent,
+    StackedBarLineChartComponent,
   ],
   imports: [
     BrowserModule,

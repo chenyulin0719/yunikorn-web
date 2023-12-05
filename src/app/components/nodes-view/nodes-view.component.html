@@ -175,8 +175,13 @@
   </div>
 
   <div class="nodes-chart-grid">
-    <ng-container *ngFor="let nodeUtilizationChartData of nodeUtilizationChartDataList">
-      <app-node-utilization [chartData]="nodeUtilizationChartData['chartDataItems']" [title]="'Node Utilization'" [subtitle]="nodeUtilizationChartData['type']"/>
-    </ng-container>
+      <app-node-utilization [chartData]="nodeUtilizationChartDataList[0]['chartDataItems']" [title]="'Node Utilization'" subtitle="Domaint Resource: cpu"/>
+
   </div>
+
+  <!-- <div class="nodes-chart-grid">
+    <ng-container *ngFor="let nodeUtilizationChartData of nodeUtilizationChartDataList">
+      <app-stacked-bar-line-chart [chartData]="nodeUtilizationChartData['chartDataItems']" [title]="'Node Utilization2'" [subtitle]="nodeUtilizationChartData['type']"/>
+    </ng-container>
+  </div> -->
 </div>
