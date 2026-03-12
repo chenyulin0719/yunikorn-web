@@ -19,17 +19,18 @@ jobs:
 
     steps:
       - name: Checkout Source Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 2
       - name: Set up Go
-        uses: actions/setup-go@v5
+        uses: actions/setup-go@v6
         with:
           go-version-file: .go_version
+          check-latest: true
       - name: Check License
         run: make license-check
       - name: Set Node.js Environment
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version-file: '.nvmrc'
       - name: Build Prod
@@ -41,7 +42,7 @@ jobs:
       - name: Go unit tests
         run: make test_go
       - name: Code coverage
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         with:
           files: build/coverage.txt
           # After codecov/codecov-action@v4, tokenless uploading of coverage files to non-public repo is unsupported.
