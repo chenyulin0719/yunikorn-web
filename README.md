@@ -47,7 +47,7 @@ Production builds will add the `--prod` flag to the angular build.
 ### Docker image build
 Image builds are geared towards a production build and will always build with the `--prod` flag set.
 
-Run `make image` to build the docker image `apache/yunikorn:web-latest`. 
+Run `make image` to build the docker image `apache/yunikorn:web-latest`.
 Run `make run` to build the image and deploy the container from the docker image `apache/yunikorn:web-latest`.
 
 You can set `REGISTRY`, `VERSION` and `DOCKER_ARCH` in the commandline to build docker image with a specified version, registry and host architecture. For example,
@@ -60,16 +60,19 @@ The Makefile is smart enough to detect your host architecture but it will tag th
 
 ### Running tests
 
-All tests can be executed via `make test`. It will first build the project and then execute the unit tests followed by the end to end tests.  
+All tests can be executed via `make test`. It will first build the project and then execute the unit tests followed by the end to end tests.
 If you want to run the unit tests separately, run `pnpm test` to execute them via [Karma](https://karma-runner.github.io). If you want to run the unit tests with code coverage, run `pnpm test:coverage`.
 
 ## Local development
-Beside the simple all in way to start the development server via make you can also start a development environment manually. 
+Beside the simple all in way to start the development server via make you can also start a development environment manually.
 
 The application depends on [json-server](https://www.npmjs.com/package/json-server) for data. Install json-server locally. Run `pnpm start:srv` to start json-server for local development.
 Run `pnpm start` to start the angular development server and navigate to `http://localhost:4200/`.
 
 After updating the context in the `json-db.json` or `json-route.json`, checking the json server is available  by running `make json-server`.
+
+## Security fixes
+To fix CVEs reported by dependabot, first try to understand if the fix is in direct or indirect dependency. You can use `pnpm why <dependency-name>` command for this. If the dependency is direct dependency update it to the version in which it is fixed - `pnpm up <dependency-name@fixed-version>`. If it is transitive dependency, check if it got updated in the direct dependency of which it is part of. If yes, then update the direct dependency as previously explained. If not, override the transitive dependency only for the affected direct depepndency. For example of this refer to `pnpm.overrides` section of package.json.
 
 ## Further help
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
